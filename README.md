@@ -1,60 +1,157 @@
-# Marketplace MVP
+# CGTRANDER Marketplace MVP
 
-The goal of this task is to test your ability to test, refactor and implement new functionality on a given system. Note
-that this repository does not represent the actual code of CGTrader, but only acts as a testing ground.
+A modern e-commerce marketplace application built as a technical assessment for CGTrader.
 
-## New Functionality
+**Live Demo:** [https://cgt-test-fe-marketplace-mu.vercel.app/](https://cgt-test-fe-marketplace-mu.vercel.app/)
 
-Imagine the situation where management assigns you a task. Management wants you to implement basic MVP functionality for
-the marketplace. User should be able to navigate between home page, product page and cart page, add multiple items to the cart and
-see the total amount for payment.
+## Overview
 
-## Tasks
+This project implements a fully functional marketplace MVP where users can browse products, filter by various criteria, manage a shopping cart, and complete checkout. The original codebase was migrated from Create React App (now deprecated) to a modern Vite-based stack with TypeScript.
 
-1. Implement MVP cart functionality
-2. Refactor implementation code and tests where you see fit. You have as much freedom here as you wish
-3. Take UI and UX in consideration. Improve the layout and styles using css/scss
-4. Make sure test suite runs through all of the tests successfully
+## Tech Stack
 
-## Notes & Requirements
+| Category | Technology |
+|----------|------------|
+| Framework | React 19 + TypeScript |
+| Build Tool | Vite 7 |
+| Routing | TanStack Router |
+| State Management | Zustand |
+| UI Components | shadcn/ui + Radix UI |
+| Styling | Tailwind CSS 4 |
+| Testing | Vitest + React Testing Library |
+| Deployment | Vercel |
 
-* You can spend as much time as you want.
-* You may refactor not only the application code, but the tests too. Keep in mind that test code is still code that
-needs to be maintained.
-* Use git to track your changes. **Fork or clone this repository** and commit often.
-* When finished, send us the link or the zip of the project via e-mail.
+## Architecture
 
-Good luck!
+The project follows **Screaming Architecture** principles, organizing code by business domain rather than technical concerns:
+
+```
+src/
+├── core/                    # Shared utilities and components
+│   ├── components/
+│   │   ├── layout/          # Layout components (navbar)
+│   │   └── ui/              # Reusable UI components (shadcn)
+│   └── lib/                 # Utility functions
+├── modules/                 # Feature modules
+│   ├── cart/                # Cart feature
+│   │   ├── components/      # Cart-specific components
+│   │   ├── interfaces/      # TypeScript interfaces
+│   │   ├── store/           # Zustand store
+│   │   └── templates/       # Page templates
+│   └── products/            # Products feature
+│       ├── components/      # Product-specific components
+│       ├── data/            # Mock data
+│       ├── interfaces/      # TypeScript interfaces
+│       ├── store/           # Filter store
+│       └── templates/       # Page templates
+├── routes/                  # TanStack Router routes
+└── __tests__/               # Unit tests
+```
+
+## Features
+
+- **Product Catalog**: Browse tech products with images, prices, ratings, and stock status
+- **Advanced Filtering**: Filter by category, price range, rating, and availability
+- **Shopping Cart**: Add/remove items, adjust quantities, view totals
+- **Coupon System**: Apply discount codes at checkout
+- **Responsive Design**: Optimized for desktop, tablet, and mobile
+- **Order Confirmation**: Success dialog with order summary
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/anthonycifuentes/cgt-test-fe-marketplace.git
+cd cgt-test-fe-marketplace
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000)
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server on port 3000 |
+| `npm run build` | Build for production with TypeScript check |
+| `npm run serve` | Preview production build |
+| `npm run test` | Run unit tests |
+
+## Development Process
+
+This project was developed using an iterative, branch-based workflow with clear PR history:
+
+1. **Project Setup** - Migrated from CRA to Vite with TypeScript configuration
+2. **UI Foundation** - Added shadcn/ui components and Radix UI dependencies
+3. **State Management** - Implemented Zustand stores for filters and cart
+4. **Product Module** - Built product interfaces, components, and listing
+5. **Cart Module** - Developed cart functionality with checkout flow
+6. **Responsive Layout** - Added mobile-first responsive design
+7. **Testing** - Wrote unit tests for stores and critical functionality
+
+### Pull Request History
+
+| PR | Description |
+|----|-------------|
+| #1 | Project setup - Vite migration and TypeScript |
+| #2 | Add shadcn/ui components and Radix UI dependencies |
+| #3 | Add Zustand filter store and mock product data |
+| #4 | Add product and filter TypeScript interfaces |
+| #5 | Add product listing UI components |
+| #6 | Add product listing template and wire up home route |
+| #7 | Convert marketplace to tech products |
+| #8 | Add cart page and fixed navbar with backdrop blur |
+| #9 | Add payment checkout functionality |
+| #10 | Add responsive layout and order success dialog |
+| #11 | Add unit tests for cart and filter stores |
+
+## Key Technical Decisions
+
+### Why Vite over Create React App?
+Create React App is deprecated and no longer maintained. Vite provides faster build times, better developer experience, and compatibility with modern libraries.
+
+### Why Screaming Architecture?
+This pattern makes the codebase self-documenting by organizing code around business domains (products, cart) rather than technical layers, making it easier to navigate and maintain.
+
+### Why Zustand over Redux?
+Zustand offers a simpler API with less boilerplate while providing the same functionality for this scale of application. It integrates well with TypeScript and React 19.
+
+### Why TanStack Router?
+Type-safe routing with built-in devtools and better TypeScript integration compared to React Router.
+
+## Testing
+
+The project includes unit tests for critical business logic:
+
+```bash
+npm run test
+```
+
+Tests cover:
+- Cart store operations (add, remove, update quantities, clear)
+- Filter store state management
+- Coupon application logic
+
+## AI-Assisted Development
+
+This project was developed with the assistance of Claude Code AI agents, which helped with:
+- Code generation and refactoring
+- TypeScript type definitions
+- Test writing
+- Documentation
 
 ---
 
-## Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Built by Anthony Cifuentes for CGTrader Technical Assessment
