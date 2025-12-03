@@ -4,7 +4,6 @@ import { ProductCard } from './product-card'
 
 export const ProductGrid: FC<ProductGridProps> = ({
   products,
-  onAddToCart,
   onToggleWishlist,
   wishlistIds = new Set(),
 }) => {
@@ -25,7 +24,6 @@ export const ProductGrid: FC<ProductGridProps> = ({
         <ProductCard
           key={product.id}
           product={product}
-          onAddToCart={onAddToCart}
           onToggleWishlist={onToggleWishlist}
           isInWishlist={wishlistIds.has(product.id)}
         />

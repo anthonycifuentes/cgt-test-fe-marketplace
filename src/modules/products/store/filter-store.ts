@@ -1,11 +1,9 @@
 import { create } from 'zustand'
-import { type ProductCategory, type ProductColor, type ProductSize } from '../interfaces/product.interface'
+import { type ProductBrand, type ProductCategory } from '../interfaces/product.interface'
 
 interface FilterState {
   categories: ProductCategory[]
-  brands: string[]
-  colors: ProductColor[]
-  sizes: ProductSize[]
+  brands: ProductBrand[]
   minRating: number
   openSections: Set<string>
   wishlistIds: Set<string>
@@ -13,9 +11,7 @@ interface FilterState {
 
 interface FilterActions {
   toggleCategory: (category: ProductCategory) => void
-  toggleBrand: (brand: string) => void
-  toggleColor: (color: ProductColor) => void
-  toggleSize: (size: ProductSize) => void
+  toggleBrand: (brand: ProductBrand) => void
   setMinRating: (rating: number) => void
   toggleSection: (section: string) => void
   toggleWishlist: (productId: string) => void
@@ -27,10 +23,8 @@ type FilterStore = FilterState & FilterActions
 const initialState: FilterState = {
   categories: [],
   brands: [],
-  colors: [],
-  sizes: [],
   minRating: 0,
-  openSections: new Set(['categories', 'brands', 'colors', 'sizes', 'rating']),
+  openSections: new Set(['categories', 'brands', 'rating']),
   wishlistIds: new Set(),
 }
 
@@ -49,20 +43,6 @@ export const useFilterStore = create<FilterStore>((set) => ({
       brands: state.brands.includes(brand)
         ? state.brands.filter((b) => b !== brand)
         : [...state.brands, brand],
-    })),
-
-  toggleColor: (color) =>
-    set((state) => ({
-      colors: state.colors.includes(color)
-        ? state.colors.filter((c) => c !== color)
-        : [...state.colors, color],
-    })),
-
-  toggleSize: (size) =>
-    set((state) => ({
-      sizes: state.sizes.includes(size)
-        ? state.sizes.filter((s) => s !== size)
-        : [...state.sizes, size],
     })),
 
   setMinRating: (rating) =>
@@ -96,8 +76,6 @@ export const useFilterStore = create<FilterStore>((set) => ({
     set({
       categories: [],
       brands: [],
-      colors: [],
-      sizes: [],
       minRating: 0,
     }),
 }))

@@ -2,36 +2,19 @@ import { type FC } from 'react'
 import { Checkbox } from '@/core/components/ui/checkbox'
 import { cn } from '@/core/lib/utils'
 import { type FilterSidebarProps } from '../interfaces/filter.interface'
-import { type ProductCategory, type ProductColor, type ProductSize } from '../interfaces/product.interface'
+import { type ProductCategory } from '../interfaces/product.interface'
 import { useFilterStore } from '../store/filter-store'
 import { availableBrands } from '../data/mock-products'
 import { FilterSection } from './filter-section'
-import { ColorSwatch } from './color-swatch'
-import { SizeButton } from './size-button'
 import { RatingFilter } from './rating-filter'
 
 const categories: ProductCategory[] = [
-  'Clothing',
-  'Shoes',
+  'Phones',
+  'Tablets',
+  'Laptops',
+  'Wearables',
   'Accessories',
-  'Sportswear',
-  'Outerwear',
-  'Formal Wear',
-  'Casual Wear',
 ]
-
-const colors: ProductColor[] = [
-  'Black',
-  'White',
-  'Red',
-  'Blue',
-  'Green',
-  'Yellow',
-  'Purple',
-  'Orange',
-]
-
-const sizes: ProductSize[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 const ratings = [4, 3, 2, 1]
 
@@ -39,14 +22,10 @@ export const FilterSidebar: FC<FilterSidebarProps> = ({ className }) => {
   const {
     categories: selectedCategories,
     brands: selectedBrands,
-    colors: selectedColors,
-    sizes: selectedSizes,
     minRating,
     openSections,
     toggleCategory,
     toggleBrand,
-    toggleColor,
-    toggleSize,
     setMinRating,
     toggleSection,
   } = useFilterStore()
@@ -87,40 +66,6 @@ export const FilterSidebar: FC<FilterSidebarProps> = ({ className }) => {
             <span className="text-sm">{brand}</span>
           </label>
         ))}
-      </FilterSection>
-
-      <FilterSection
-        title="Colors"
-        isOpen={openSections.has('colors')}
-        onToggle={() => toggleSection('colors')}
-      >
-        <div className="flex flex-wrap gap-2">
-          {colors.map((color) => (
-            <ColorSwatch
-              key={color}
-              color={color}
-              isSelected={selectedColors.includes(color)}
-              onToggle={() => toggleColor(color)}
-            />
-          ))}
-        </div>
-      </FilterSection>
-
-      <FilterSection
-        title="Sizes"
-        isOpen={openSections.has('sizes')}
-        onToggle={() => toggleSection('sizes')}
-      >
-        <div className="flex flex-wrap gap-2">
-          {sizes.map((size) => (
-            <SizeButton
-              key={size}
-              size={size}
-              isSelected={selectedSizes.includes(size)}
-              onToggle={() => toggleSize(size)}
-            />
-          ))}
-        </div>
       </FilterSection>
 
       <FilterSection
