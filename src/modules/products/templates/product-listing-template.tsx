@@ -10,8 +10,6 @@ const filterProducts = (
   filters: {
     categories: string[]
     brands: string[]
-    colors: string[]
-    sizes: string[]
     minRating: number
   }
 ): Product[] => {
@@ -26,22 +24,6 @@ const filterProducts = (
       return false
     }
 
-    // Color filter - product must have at least one of the selected colors
-    if (filters.colors.length > 0) {
-      const hasMatchingColor = product.colors.some((color) => filters.colors.includes(color))
-      if (!hasMatchingColor) {
-        return false
-      }
-    }
-
-    // Size filter - product must have at least one of the selected sizes
-    if (filters.sizes.length > 0) {
-      const hasMatchingSize = product.sizes.some((size) => filters.sizes.includes(size))
-      if (!hasMatchingSize) {
-        return false
-      }
-    }
-
     // Rating filter
     if (filters.minRating > 0 && product.rating < filters.minRating) {
       return false
@@ -52,17 +34,12 @@ const filterProducts = (
 }
 
 export const ProductListingTemplate: FC = () => {
-  const { categories, brands, colors, sizes, minRating, wishlistIds, toggleWishlist } = useFilterStore()
+  const { categories, brands, minRating, wishlistIds, toggleWishlist } = useFilterStore()
 
   const filteredProducts = useMemo(
-    () => filterProducts(mockProducts, { categories, brands, colors, sizes, minRating }),
-    [categories, brands, colors, sizes, minRating]
+    () => filterProducts(mockProducts, { categories, brands, minRating }),
+    [categories, brands, minRating]
   )
-
-  const handleAddToCart = (productId: string) => {
-    // For now, just log - can be extended later with cart store
-    console.log('Add to cart:', productId)
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,7 +52,7 @@ export const ProductListingTemplate: FC = () => {
           <main className="flex-1">
             {/* Header */}
             <div className="mb-6">
-              <h1 className="font-bold text-2xl">Products</h1>
+              <h1 className="font-bold text-2xl">Tech Products</h1>
               <p className="mt-2 text-muted-foreground text-sm">
                 {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}{' '}
                 found
@@ -85,7 +62,6 @@ export const ProductListingTemplate: FC = () => {
             {/* Product Grid */}
             <ProductGrid
               products={filteredProducts}
-              onAddToCart={handleAddToCart}
               onToggleWishlist={toggleWishlist}
               wishlistIds={wishlistIds}
             />
