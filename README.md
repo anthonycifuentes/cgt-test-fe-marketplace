@@ -1,4 +1,4 @@
-# CGTRANDER Marketplace MVP
+# CGTRADER Marketplace MVP
 
 A modern e-commerce marketplace application built as a technical assessment for CGTrader.
 
