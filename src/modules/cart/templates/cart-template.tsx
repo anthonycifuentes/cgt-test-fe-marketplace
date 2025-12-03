@@ -1,8 +1,16 @@
 import { type FC, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { ShoppingCart } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { CheckCircle2, ShoppingCart } from "lucide-react";
 import { Button } from "@/core/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/core/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/core/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/core/components/ui/radio-group";
 import { Label } from "@/core/components/ui/label";
 import { Input } from "@/core/components/ui/input";
@@ -18,10 +26,23 @@ export const CartTemplate: FC = () => {
     applyCoupon,
     removeCoupon,
     couponCode,
+    clearCart,
   } = useCartStore();
   const subtotal = useCartSubtotal();
+  const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [discountCode, setDiscountCode] = useState("");
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+
+  const handlePlaceOrder = () => {
+    setIsSuccessDialogOpen(true);
+  };
+
+  const handleGoHome = () => {
+    clearCart();
+    setIsSuccessDialogOpen(false);
+    navigate({ to: "/" });
+  };
 
   // Calculate order totals
   const shippingCost = 599;
@@ -210,13 +231,35 @@ export const CartTemplate: FC = () => {
                       <Input type="text" id="card-cvv" placeholder="248" />
                     </div>
                   </div>
-                  <Button className="w-full">Place Order</Button>
+                  <Button className="w-full" onClick={handlePlaceOrder}>
+                    Place Order
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
+
+      {/* Success Dialog */}
+      <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
+        <DialogContent className="text-center sm:max-w-md">
+          <DialogHeader className="flex flex-col items-center gap-4">
+            <div className="flex size-16 items-center justify-center rounded-full bg-green-100">
+              <CheckCircle2 className="size-8 text-green-600" />
+            </div>
+            <DialogTitle className="text-2xl">Order Placed Successfully!</DialogTitle>
+            <DialogDescription className="text-base">
+              Thank you for your purchase. Your order has been confirmed and will be shipped soon.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-4 sm:justify-center">
+            <Button onClick={handleGoHome} className="w-full sm:w-auto">
+              Continue Shopping
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
