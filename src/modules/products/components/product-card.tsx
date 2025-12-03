@@ -1,6 +1,7 @@
 import { type FC } from 'react'
 import { Heart, Star } from 'lucide-react'
 import { cn } from '@/core/lib/utils'
+import { useCartStore } from '@/modules/cart/store/cart-store'
 import { type ProductCardProps } from '../interfaces/product.interface'
 
 export const ProductCard: FC<ProductCardProps> = ({
@@ -9,6 +10,7 @@ export const ProductCard: FC<ProductCardProps> = ({
   onToggleWishlist,
   isInWishlist = false,
 }) => {
+  const addItem = useCartStore((state) => state.addItem)
   return (
     <article
       className={cn(
@@ -69,6 +71,7 @@ export const ProductCard: FC<ProductCardProps> = ({
           <span className="text-2xl font-semibold">${product.price.toLocaleString()}.00</span>
           <button
             type="button"
+            onClick={() => addItem(product)}
             className="rounded-full bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
           >
             Buy
